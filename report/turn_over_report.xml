@@ -1,0 +1,137 @@
+<odoo>
+  <template id="report_turn_over_template">
+    <t t-call="web.basic_layout" style="margin-top: 0; padding-top: 0;">
+      <main class="o_main_report_layout" style="margin-top: 0; padding-top: 0;">
+        <t t-foreach="docs" t-as="wizard">
+          <t t-set="data" t-value="wizard._get_turn_over_data()" />
+          <t t-set="lines" t-value="data['report_data']" />
+
+          <div class="page" style="margin-top: 0; padding-top: 0;">
+            <table class="table table-borderless"
+                   style="width: 100%; border-collapse: collapse; border-bottom: 2px solid #000; margin-top: 0; padding-top: 0;">
+              <tr>
+                <!-- LOGO -->
+                <td style="width: 25%; vertical-align: top; padding: 0;">
+                  <img t-if="wizard.company_id.logo"
+                       t-att-src="image_data_uri(wizard.company_id.logo)"
+                       style="max-height: 120px; margin: 0; padding: 0;"
+                       alt="Logo"/>
+                </td>
+
+                <!-- INFOS ENTREPRISE -->
+                <td style="width: 75%; vertical-align: top; text-align: right; padding: 0;">
+                  <div style="font-size: 12px; line-height: 1.4;">
+                    <strong style="font-size: 14px;">
+                      <t t-esc="wizard.company_id.name"/>
+                    </strong><br/>
+                    <span>Production - Représentation - Distribution de produits cosmétiques</span><br/>
+                    <span>N° Contribuable : <strong><t t-esc="wizard.company_id.vat or ''"/></strong></span><br/>
+                    <span>RCCM : <strong><t t-esc="wizard.company_id.company_registry or ''"/></strong></span><br/>
+                    <span>BP : <strong>
+                      <t t-esc="wizard.company_id.zip or ''"/> 
+                      <t t-esc="wizard.company_id.city or ''"/>
+                    </strong></span><br/>
+                    <span>Tél : <strong>
+                      <t t-esc="wizard.company_id.phone or ''"/> / 
+                      <t t-esc="wizard.company_id.mobile or ''"/>
+                    </strong></span><br/>
+                    <span>Siège : <strong>
+                      <t t-esc="wizard.company_id.street or ''"/> - 
+                      <t t-esc="wizard.company_id.city or ''"/>
+                    </strong></span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <h2 style="text-align:center; color:black; margin: 20px 0 10px 0;">
+              Chiffre d'affaire - Global
+            </h2>
+
+            <p style="text-align:center; margin-bottom: 10px;">
+              <strong>Période :</strong>
+              <t t-esc="wizard.start_date"/> au <t t-esc="wizard.end_date"/>
+            </p>
+            <table class="table table-sm"
+                   style="width:100%; border-collapse: collapse; margin-top:10px;">
+              <thead style="background-color:#27ae60; color:white;">
+                <tr>
+                  <th style="border:1px solid black; padding:4px;">Catégorie / Rayon</th>
+                  <th style="border:1px solid black; padding:4px;">Achat</th>
+                  <th style="border:1px solid black; padding:4px;">Vente</th>
+                  <th style="border:1px solid black; padding:4px;">Marge</th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="lines.items()" t-as="parent">
+                  <!-- CATEGORIE PRINCIPALE -->
+                  <tr style="background-color:#ecf0f1;">
+                    <td style="border:1px solid black; padding:4px; font-weight:bold;">
+                      <t t-esc="parent[0]" />
+                    </td>
+                    <td style="border:1px solid black; padding:4px; text-align:right;">
+                      <t t-esc="'{:,.2f}'.format(parent[1]['total_achat'])" />
+                    </td>
+                    <td style="border:1px solid black; padding:4px; text-align:right;">
+                      <t t-esc="'{:,.2f}'.format(parent[1]['total_vente'])" />
+                    </td>
+                    <td style="border:1px solid black; padding:4px; text-align:right;">
+                      <t t-esc="'{:,.2f}'.format(parent[1]['total_vente'] - parent[1]['total_achat'])" />
+                    </td>
+                  </tr>
+
+                  <!-- SOUS-RAYONS -->
+                  <t t-foreach="parent[1].get('rayons', {}).items()" t-as="rayon">
+                    <tr>
+                      <td style="border:1px solid black; padding:4px; padding-left:25px;">
+                        <t t-esc="rayon[0]" />
+                      </td>
+                      <td style="border:1px solid black; padding:4px; text-align:right;">
+                        <t t-esc="'{:,.2f}'.format(rayon[1]['total_achat'])" />
+                      </td>
+                      <td style="border:1px solid black; padding:4px; text-align:right;">
+                        <t t-esc="'{:,.2f}'.format(rayon[1]['total_vente'])" />
+                      </td>
+                      <td style="border:1px solid black; padding:4px; text-align:right;">
+                        <t t-esc="'{:,.2f}'.format(rayon[1]['total_vente'] - rayon[1]['total_achat'])" />
+                      </td>
+                    </tr>
+                  </t>
+                </t>
+              </tbody>
+            </table>
+
+            <!--TOTAUX GLOBAUX -->
+            <div style="margin-top:30px; display:flex; justify-content:space-between;">
+              <div>
+                <table>
+                  <tr>
+                    <th>Module</th>
+                  <th>Total</th>
+                  </tr>
+                  <tr>
+                    <td>Vente</td>
+                    <td>
+                      <t t-esc="'{:,.2f}'.format(data.get('vente', 0.0))" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Point de vente</td>
+                    <td>
+                      <t t-esc="'{:,.2f}'.format(data.get('pos', 0.0))" />
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div style="text-align:right;">
+                <p><strong>Total Achat :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_achat'])" /></p>
+                <p><strong>Total Vente :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_vente'])" /></p>
+                <p><strong>Total Marge :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_marge'])" /></p>
+              </div>
+            </div>
+
+          </div>
+        </t>
+      </main>
+    </t>
+  </template>
+</odoo>

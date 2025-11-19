@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_session_backdate_wizard_form" model="ir.ui.view">
+        <field name="name">pos.session.backdate.wizard.form</field>
+        <field name="model">pos.session.backdate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Modifier la date de session">
+                <group>
+                    <field name="manual_date"/>
+                </group>
+                <footer>
+                    <button string="Appliquer" type="object" name="apply_manual_date" class="btn-primary"/>
+                    <button string="Annuler" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

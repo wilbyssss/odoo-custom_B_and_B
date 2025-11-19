@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_pos_session_form_inherit_backdate" model="ir.ui.view">
+        <field name="name">pos.session.form.inherit.backdate</field>
+        <field name="model">pos.session</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+        <field name="arch" type="xml">
+
+            <!-- On ajoute le champ invisible pour éviter l’erreur -->
+            <xpath expr="//sheet" position="inside">
+                <field name="allow_manual_session_date" invisible="1"/>
+            </xpath>
+
+            <!-- On ajoute le bouton dans le header -->
+            <xpath expr="//header" position="inside">
+                <button string="Ajuster la date"
+                        name="action_open_backdate_wizard"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('allow_manual_session_date', '=', False)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

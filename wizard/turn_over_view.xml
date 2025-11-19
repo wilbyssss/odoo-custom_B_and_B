@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="turn_over_view_form" model="ir.ui.view">
+    <field name="name">turn.over.view.form</field>
+    <field name="model">turn.over.wizard</field>
+    <field name="arch" type="xml">
+      <form string="">
+        <sheet>
+         <group>
+          <field name="company_id" string="Société"/>
+         </group>
+         <group>
+          <field name="sale_src" string="Source"/>
+         </group>
+         <group>
+          <field name="start_date" string="Date de début"/>
+         </group>
+          <group>
+           <field name="end_date" string="Date de fin"/>
+          </group>
+          <footer>
+            <button string="Imprimer" name="generate_report"  type="object" class="oe_highlight"/>
+            <button string="Annuler" special="cancel"/>
+          </footer>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_turn_over_id" model="ir.actions.act_window">
+    <field name="name">Chiffre d'affaire</field>
+    <field name="res_model">turn.over.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+</odoo>
