@@ -1,3 +1,5 @@
 # -*- coding: utf-8 -*-
 
 from . import pos_session_back_dating
+from . import transfert_without_zero_qty
+from . import purchase_auto_receipt_invoice
