@@ -22,7 +22,7 @@
       </field>
    </record>
 
-   <!-- Configuration pour Achats - Section Orders -->
+   <!-- Configuration pour Achats-->
    <record id="view_purchase_config_inherit_auto_validation" model="ir.ui.view">
       <field name="name">purchase.config.inherit.auto.validation</field>
       <field name="model">res.config.settings</field>
@@ -43,7 +43,6 @@
          </xpath>
       </field>
    </record>
-
    <record id="view_invoice_config_inherit_auto_validation" model="ir.ui.view">
       <field name="name">purchase.config.inherit.auto.invoice</field>
       <field name="model">res.config.settings</field>
@@ -57,7 +56,29 @@
                <div class="o_setting_right_pane">
                   <label for="allow_auto_invoice" />
                   <div class="text-muted">
-                     Créer et confirmer automatiquement les factures apres la validations des réceptions
+                     Créer et confirmer automatiquement les factures apres la validations des
+                     réceptions
+                  </div>
+               </div>
+            </div>
+         </xpath>
+      </field>
+   </record>
+
+   <record id="view_stock_move_inherit_config" model="ir.ui.view">
+      <field name="name">stock.move.config.view.form.inherit</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id" ref="stock.res_config_settings_view_form" />
+      <field name="arch" type="xml">
+         <xpath expr="//div[@name='operations_setting_container']" position="inside">
+            <div class="col-12 col-lg-6 o_setting_box" id="reception_report">
+               <div class="o_setting_left_pane">
+                  <field name="restrict_transfert_with_zero_qty" />
+               </div>
+               <div class="o_setting_right_pane">
+                  <label for="restrict_transfert_with_zero_qty" />
+                  <div class="text-muted">
+                     Bloquer le transfert des produits ayant un stock inférieur ou égal à zéro
                   </div>
                </div>
             </div>

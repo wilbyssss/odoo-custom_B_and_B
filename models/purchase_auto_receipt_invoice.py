@@ -2,29 +2,6 @@ from odoo import fields, models, api
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
-
-    allow_auto_validation_purchase_order = fields.Boolean(
-        string="Confirmation automatique des réceptions",
-        help="Si activé, les réceptions seront automatiquement confirmées "
-             "lors de la validation du bon de commande",
-        config_parameter='purchase.allow_auto_validation_purchase_order'
-    )
-
-    allow_auto_invoice = fields.Boolean(
-        string="Création et confirmation automatique des factures",
-        help="Si activé, les factures seront crées et valider automatiquement après la reception du bon de commande.",
-        config_parameter = 'account.move.allow_auto_invoice'
-    )
-
-
-
-class PurchaseOrder(models.Model):
-    _inherit = 'purchase.order'
-
-    from odoo import fields, models, api
-
-class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
     
     allow_auto_validation_purchase_order = fields.Boolean(
         string="Confirmation automatique des réceptions",
