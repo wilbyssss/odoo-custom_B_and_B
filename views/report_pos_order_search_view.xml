@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Pivot avec team_id -->
+    <record id="view_report_pos_order_pivot_team" model="ir.ui.view">
+        <field name="name">report.pos.order.pivot.team</field>
+        <field name="model">report.pos.order</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse POS par Équipe Commerciale">
+                <!-- Dimensions -->
+                <field name="team_id" type="row"/>
+                <field name="user_id" type="row"/>
+                <field name="product_categ_id" type="row"/>
+                
+                <!-- Colonnes -->
+                <field name="date" type="col" interval="month"/>
+                <field name="state" type="col"/>
+                
+                <!-- Filtres -->
+                <field name="date" type="filter"/>
+                <field name="team_id" type="filter"/>
+                <field name="state" type="filter"/>
+                <field name="product_categ_id" type="filter"/>
+                <field name="company_id" type="filter"/>
+            </pivot>
+        </field>
+    </record>
+    
+    <!-- Action pour la nouvelle vue -->
+    <record id="action_report_pos_order_pivot_team" model="ir.actions.act_window">
+        <field name="name">POS par Équipe Commerciale</field>
+        <field name="res_model">report.pos.order</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_report_pos_order_pivot_team"/>
+        <field name="search_view_id" ref="point_of_sale.view_pos_order_search"/>
+        <field name="context">{"search_default_last_month": 1}</field>
+    </record>
+    
+   
+</odoo>

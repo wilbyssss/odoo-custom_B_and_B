@@ -1,58 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <template id="report_turn_over_template_pos">
-    <t t-call="web.basic_layout" style="margin-top: 0; padding-top: 0;">
-      <main class="o_main_report_layout" style="margin-top: 0; padding-top: 0;">
+    <t t-call="web.basic_layout">
+      <main class="o_main_report_layout">
         <t t-foreach="docs" t-as="wizard">
-          <t t-set="data" t-value="wizard._get_turn_over_data()" />
+          <!-- CORRIGÉ : Appeler la méthode avec () -->
+          <t t-set="data" t-value="wizard._get_turn_over_pos_data()" />
           <t t-set="lines" t-value="data['report_data']" />
 
-          <div class="page" style="margin-top: 0; padding-top: 0;">
-            <table class="table table-borderless"
-                   style="width: 100%; border-collapse: collapse; border-bottom: 2px solid #000; margin-top: 0; padding-top: 0;">
+          <div class="page">
+            <!-- EN-TÊTE -->
+            <table class="table table-borderless" style="width:100%; border-bottom:2px solid #000;">
               <tr>
-                <!-- LOGO -->
-                <td style="width: 25%; vertical-align: top; padding: 0;">
+                <td style="width:25%; vertical-align:top;">
                   <img t-if="wizard.company_id.logo"
-                       t-att-src="image_data_uri(wizard.company_id.logo)"
-                       style="max-height: 120px; margin: 0; padding: 0;"
-                       alt="Logo"/>
+                       t-att-src="'data:image/png;base64,' + wizard.company_id.logo.decode('utf-8')"
+                       style="max-height:120px;" alt="Logo"/>
                 </td>
-
-                <!-- INFOS ENTREPRISE -->
-                <td style="width: 75%; vertical-align: top; text-align: right; padding: 0;">
-                  <div style="font-size: 12px; line-height: 1.4;">
-                    <strong style="font-size: 14px;">
-                      <t t-esc="wizard.company_id.name"/>
-                    </strong><br/>
-                    <span>Production - Représentation - Distribution de produits cosmétiques</span><br/>
-                    <span>N° Contribuable : <strong><t t-esc="wizard.company_id.vat or ''"/></strong></span><br/>
-                    <span>RCCM : <strong><t t-esc="wizard.company_id.company_registry or ''"/></strong></span><br/>
-                    <span>BP : <strong>
-                      <t t-esc="wizard.company_id.zip or ''"/> 
-                      <t t-esc="wizard.company_id.city or ''"/>
-                    </strong></span><br/>
-                    <span>Tél : <strong>
-                      <t t-esc="wizard.company_id.phone or ''"/> / 
-                      <t t-esc="wizard.company_id.mobile or ''"/>
-                    </strong></span><br/>
-                    <span>Siège : <strong>
-                      <t t-esc="wizard.company_id.street or ''"/> - 
-                      <t t-esc="wizard.company_id.city or ''"/>
-                    </strong></span>
-                  </div>
+                <td style="width:75%; vertical-align:top; text-align:right; font-size:12px;">
+                  <strong style="font-size:14px;"><t t-esc="wizard.company_id.name"/></strong><br/>
+                  Production - Représentation - Distribution de produits cosmétiques<br/>
+                  N° Contribuable : <strong><t t-esc="wizard.company_id.vat or ''"/></strong><br/>
+                  RCCM : <strong><t t-esc="wizard.company_id.company_registry or ''"/></strong><br/>
+                  BP : <strong><t t-esc="wizard.company_id.zip or ''"/> <t t-esc="wizard.company_id.city or ''"/></strong><br/>
+                  Tél : <strong><t t-esc="wizard.company_id.phone or ''"/> / <t t-esc="wizard.company_id.mobile or ''"/></strong><br/>
+                  Siège : <strong><t t-esc="wizard.company_id.street or ''"/> - <t t-esc="wizard.company_id.city or ''"/></strong>
                 </td>
               </tr>
             </table>
-            <h2 style="text-align:center; color:black; margin: 20px 0 10px 0;">
-              Chiffre d'affaire - Point de vente
-            </h2>
 
-            <p style="text-align:center; margin-bottom: 10px;">
-              <strong>Période :</strong>
-              <t t-esc="wizard.start_date"/> au <t t-esc="wizard.end_date"/>
+            <h2 style="text-align:center; color:black; margin:20px 0 10px;">Chiffre d'affaire - Point de vente</h2>
+            <p style="text-align:center; margin-bottom:10px;">
+              <strong>Période :</strong> <t t-esc="wizard.start_date"/> au <t t-esc="wizard.end_date"/>
             </p>
-            <table class="table table-sm"
-                   style="width:100%; border-collapse: collapse; margin-top:10px;">
+
+            <!-- TABLEAU -->
+            <table class="table table-sm" style="width:100%; border-collapse:collapse; margin-top:10px;">
               <thead style="background-color:#27ae60; color:white;">
                 <tr>
                   <th style="border:1px solid black; padding:4px;">Catégorie / Rayon</th>
@@ -63,7 +46,6 @@
               </thead>
               <tbody>
                 <t t-foreach="lines.items()" t-as="parent">
-                  <!-- CATEGORIE PRINCIPALE -->
                   <tr style="background-color:#ecf0f1;">
                     <td style="border:1px solid black; padding:4px; font-weight:bold;">
                       <t t-esc="parent[0]" />
@@ -78,8 +60,6 @@
                       <t t-esc="'{:,.2f}'.format(parent[1]['total_vente'] - parent[1]['total_achat'])" />
                     </td>
                   </tr>
-
-                  <!-- SOUS-RAYONS -->
                   <t t-foreach="parent[1].get('rayons', {}).items()" t-as="rayon">
                     <tr>
                       <td style="border:1px solid black; padding:4px; padding-left:25px;">
@@ -100,17 +80,12 @@
               </tbody>
             </table>
 
-            <!--TOTAUX GLOBAUX -->
-            <div style="margin-top:30px; display:flex; justify-content:space-between;">
-              <div>
-              </div>
-              <div style="text-align:right;">
-                <p><strong>Total Achat :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_achat'])" /></p>
-                <p><strong>Total Vente :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_vente'])" /></p>
-                <p><strong>Total Marge :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_marge'])" /></p>
-              </div>
+            <!-- TOTAUX -->
+            <div style="margin-top:30px; text-align:right;">
+              <p><strong>Total Achat :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_achat'])" /></p>
+              <p><strong>Total Vente :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_vente'])" /></p>
+              <p><strong>Total Marge :</strong> <t t-esc="'{:,.2f}'.format(data['total_general_marge'])" /></p>
             </div>
-
           </div>
         </t>
       </main>

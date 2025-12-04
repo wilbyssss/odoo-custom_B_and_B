@@ -12,8 +12,8 @@
             <field name="name">Rapport du Chiffre d'Affaires</field>
             <field name="model">turn.over.wizard</field>
             <field name="report_type">qweb-html</field>
-            <field name="report_name">preva_custom_report.report_turn_over_template</field>
-            <field name="report_file">preva_custom_report.report_turn_over_template</field>
+            <field name="report_name">custom_B_and_B.report_turn_over_template</field>
+            <field name="report_file">custom_B_and_B.report_turn_over_template</field>
             <field name="print_report_name">'Chiffre_affaires_Global'</field>
             <field name="paperformat_id" ref="base.paperformat_euro" />
             <field name="attachment_use" eval="False" />
@@ -22,8 +22,8 @@
             <field name="name">Rapport du Chiffre d'Affaires</field>
             <field name="model">turn.over.wizard</field>
             <field name="report_type">qweb-html</field>
-            <field name="report_name">preva_custom_report.report_turn_over_template_pos</field>
-            <field name="report_file">preva_custom_report.report_turn_over_template_pos</field>
+            <field name="report_name">custom_B_and_B.report_turn_over_template_pos</field>
+            <field name="report_file">custom_B_and_B.report_turn_over_template_pos</field>
             <field name="print_report_name">'Chiffre_affaires_pos'</field>
             <field name="paperformat_id" ref="base.paperformat_euro" />
             <field name="attachment_use" eval="False" />
@@ -32,8 +32,8 @@
             <field name="name">Rapport du Chiffre d'Affaires</field>
             <field name="model">turn.over.wizard</field>
             <field name="report_type">qweb-html</field>
-            <field name="report_name">preva_custom_report.report_turn_over_template_sale</field>
-            <field name="report_file">preva_custom_report.report_turn_over_template_sale</field>
+            <field name="report_name">custom_B_and_B.report_turn_over_template_sale</field>
+            <field name="report_file">custom_B_and_B.report_turn_over_template_sale</field>
             <field name="print_report_name">'Chiffre_affaires_sale'</field>
             <field name="paperformat_id" ref="base.paperformat_euro" />
             <field name="attachment_use" eval="False" />

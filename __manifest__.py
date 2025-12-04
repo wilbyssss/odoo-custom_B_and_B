@@ -29,6 +29,7 @@
         'wizard/turn_over_view.xml',
         'wizard/pos_session_wizard_view.xml',
         'views/ir_views.xml',
+        'views/report_pos_order_search_view.xml',
         'views/res_config_settings_views.xml',
         'views/pos_session_back_dating_views.xml',
         'report/turn_over_report.xml',
